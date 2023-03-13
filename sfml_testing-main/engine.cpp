@@ -56,7 +56,10 @@ void engine::render() {
 	return;
 }
 
-void engine::update(action players_action) {
+engine_return engine::update(action players_action) {
+
+	info_to_return.announcements.clear();
+
 	action_return player_go;
 	coords attackCoords = player_char->position;
 	if(player_char->energy>=5000)
@@ -66,6 +69,8 @@ void engine::update(action players_action) {
 		if (player_go.success == true) {
 			player_char->energy -= player_char->move_energy_cost;
 			map->FloodFillDmap(player_char->position);
+			if(player_go.notify_player)
+			info_to_return.announcements.push_back(player_go.announcement);
 		}
 		attackCoords.row--;
 		break;
@@ -74,6 +79,8 @@ void engine::update(action players_action) {
 		if (player_go.success == true) {
 			player_char->energy -= player_char->move_energy_cost;
 			map->FloodFillDmap(player_char->position);
+			if (player_go.notify_player)
+			info_to_return.announcements.push_back(player_go.announcement);
 		}
 		attackCoords.row++;
 		break;
@@ -82,6 +89,8 @@ void engine::update(action players_action) {
 		if (player_go.success == true) {
 			player_char->energy -= player_char->move_energy_cost;
 			map->FloodFillDmap(player_char->position);
+			if (player_go.notify_player)
+			info_to_return.announcements.push_back(player_go.announcement);
 		}
 		attackCoords.column++;
 		break;
@@ -90,6 +99,8 @@ void engine::update(action players_action) {
 		if (player_go.success == true) {
 			player_char->energy -= player_char->move_energy_cost;
 			map->FloodFillDmap(player_char->position);
+			if (player_go.notify_player)
+			info_to_return.announcements.push_back(player_go.announcement);
 		}
 		attackCoords.column--;
 		break;
@@ -98,6 +109,8 @@ void engine::update(action players_action) {
 		if (player_go.success == true) {
 			player_char->energy -= player_char->move_energy_cost;
 			map->FloodFillDmap(player_char->position);
+			if (player_go.notify_player)
+			info_to_return.announcements.push_back(player_go.announcement);
 		}
 		attackCoords.row--;
 		attackCoords.column--;
@@ -107,6 +120,8 @@ void engine::update(action players_action) {
 		if (player_go.success == true) {
 			player_char->energy -= player_char->move_energy_cost;
 			map->FloodFillDmap(player_char->position);
+			if (player_go.notify_player)
+			info_to_return.announcements.push_back(player_go.announcement);
 		}
 		attackCoords.row--;
 		attackCoords.column++;
@@ -116,6 +131,8 @@ void engine::update(action players_action) {
 		if (player_go.success == true) {
 			player_char->energy -= player_char->move_energy_cost;
 			map->FloodFillDmap(player_char->position);
+			if (player_go.notify_player)
+			info_to_return.announcements.push_back(player_go.announcement);
 		}
 		attackCoords.row++;
 		attackCoords.column--;
@@ -125,21 +142,29 @@ void engine::update(action players_action) {
 		if (player_go.success == true) {
 			player_char->energy -= player_char->move_energy_cost;
 			map->FloodFillDmap(player_char->position);
+			if (player_go.notify_player)
+			info_to_return.announcements.push_back(player_go.announcement);
 		}
 		attackCoords.row++;
 		attackCoords.column++;
 		break;
 	}
 
-	
+	if (player_go.success == false && player_go.alternate_action == null) {
+
+	}
+
 	if (player_go.alternate_action == attack) {
 
 		actor* attack_target = getTarget(attackCoords);
-
+		
 		if (attack_target != nullptr) {
-			player_char->meleeAttack(attack_target);
+			player_go = player_char->meleeAttack(attack_target);
 			checkDeaths();
 			player_char->energy -= player_char->melee_energy_cost;
+
+			info_to_return.player_hp = player_char->hp;
+			info_to_return.announcements.push_back(player_go.announcement);
 		}
 
 
@@ -154,7 +179,9 @@ void engine::update(action players_action) {
 
 		if (active_npcs[i]->energy >= 5000) {
 			cur_npc_turn_result = active_npcs[i]->update(player_char);
-			
+
+			if(cur_npc_turn_result.notify_player)
+			info_to_return.announcements.push_back(cur_npc_turn_result.announcement);
 		}
 		checkDeaths();
 		active_npcs[i]->energy += active_npcs[i]->speed;
@@ -163,8 +190,10 @@ void engine::update(action players_action) {
 	}
 
 	render();
-
-	return;
+	//null
+	info_to_return.player_hp = player_char->hp;
+	engine_return return_info = info_to_return;
+	return return_info;
 }
 
 actor* engine::getTarget(coords target_coords) {
@@ -194,7 +223,9 @@ void engine::spawnRandomZombie() {
 
 void engine::checkDeaths() {
 	if (player_char->hp <= 0) {
-		std::cout << "You died!" << std::endl;
+		//std::cout << "You died!" << std::endl;
+		info_to_return.announcements.push_back("You died!.");
+		info_to_return.player_hp = player_char->hp;
 		//exit(0);
 	}
 
@@ -204,7 +235,8 @@ void engine::checkDeaths() {
 			map->ActiveGrid->GridTiles[active_npcs[i]->position.row][active_npcs[i]->position.column].occupied = false;
 			delete active_npcs[i];
 			active_npcs.erase(active_npcs.begin() + i);
-			std::cout << "The zombie dies!" << std::endl;
+			//std::cout << "The zombie dies!" << std::endl;
+			info_to_return.announcements.push_back("The zombie dies!");
 		}
 	}
 

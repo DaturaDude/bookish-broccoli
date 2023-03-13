@@ -23,7 +23,7 @@ action_return actor::meleeAttack(actor* target) {
 	if (Hit == false) {
 		std::string AnnouncementMiss = name + " Misses " + target->name + ".";
 		return_info.announcement = AnnouncementMiss;
-		std::cout << AnnouncementMiss << std::endl;
+		//std::cout << AnnouncementMiss << std::endl;
 		return_info.success = false;
 		return return_info;
 	}
@@ -41,7 +41,7 @@ action_return actor::meleeAttack(actor* target) {
 
 
 	std::string Announcement = name + " hits " + target->name + " for " + std::to_string(damageRoll) + " damage.";
-	std::cout << Announcement << std::endl;
+	//std::cout << Announcement << std::endl;
 	return_info.announcement = Announcement;
 	return_info.success = true;
 	if (target->hp <= 0)
@@ -503,6 +503,7 @@ action_return zombie::update(actor* player_target) {
 
 	if (npc_turn == attack) {
 		return_info = meleeAttack(player_target);
+		return_info.notify_player = true;
 		energy -= melee_energy_cost;
 	}
 

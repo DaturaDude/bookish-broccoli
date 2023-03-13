@@ -6,6 +6,7 @@ enum action {
 };
 struct action_return {
 	bool success{ true };
+	bool notify_player{ false };
 	std::string announcement{ "..." };
 	action alternate_action{ null };
 };

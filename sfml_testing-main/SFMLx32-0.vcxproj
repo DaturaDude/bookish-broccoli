@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="actors.cpp" />
+    <ClCompile Include="ui.cpp" />
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="game_world.cpp" />
     <ClCompile Include="Main.cpp">
@@ -143,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="actors.h" />
+    <ClInclude Include="ui.h" />
     <ClInclude Include="engine.h" />
     <ClInclude Include="game_world.h" />
     <ClInclude Include="map_gen.h" />
