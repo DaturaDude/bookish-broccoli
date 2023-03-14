@@ -2,6 +2,7 @@
 
 action_return actor::meleeAttack(actor* target) {
 	action_return return_info;
+	return_info.notify_player = true;
 	int baseDmg = meleeDmg;
 
 	//first roll 3d6 for hit/miss
@@ -475,7 +476,7 @@ zombie::zombie(coords initPos, world_plane* spawn_map) {
 	name = "Zombie";
 	description = "It wants to eat your brains.";
 	speed = 80;
-	hp = 10;
+	hp = 20;
 	active_map = spawn_map;
 }
 
@@ -498,6 +499,7 @@ action_return zombie::update(actor* player_target) {
 		return_info.announcement = "\0";
 		return_info.alternate_action = null;
 		return_info.success = true;
+		return return_info;
 	}
 
 
@@ -505,46 +507,55 @@ action_return zombie::update(actor* player_target) {
 		return_info = meleeAttack(player_target);
 		return_info.notify_player = true;
 		energy -= melee_energy_cost;
+		return return_info;
 	}
 
 	if (npc_turn == up) {
 		return_info = moveTile(up);
 		energy -= move_energy_cost;
+		return return_info;
 	}
 
 	if (npc_turn == down) {
 		return_info = moveTile(down);
 		energy -= move_energy_cost;
+		return return_info;
 	}
 
 	if (npc_turn == left) {
 		return_info = moveTile(left);
 		energy -= move_energy_cost;
+		return return_info;
 	}
 
 	if (npc_turn == right) {
 		return_info = moveTile(right);
 		energy -= move_energy_cost;
+		return return_info;
 	}
 
 	if (npc_turn == up_left) {
 		return_info = moveTile(up_left);
 		energy -= move_energy_cost;
+		return return_info;
 	}
 
 	if (npc_turn == up_right) {
 		return_info = moveTile(up_right);
 		energy -= move_energy_cost;
+		return return_info;
 	}
 
 	if (npc_turn == down_left) {
 		return_info = moveTile(down_left);
 		energy -= move_energy_cost;
+		return return_info;
 	}
 
 	if (npc_turn == down_right) {
 		return_info = moveTile(down_right);
 		energy -= move_energy_cost;
+		return return_info;
 	}
 
 	return return_info;

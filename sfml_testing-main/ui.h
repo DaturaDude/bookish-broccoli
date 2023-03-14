@@ -5,6 +5,12 @@
 #include "engine.h"
 
 //this class takes place of main event window. main just creates a game_ui and calls .run();
+struct ALERT {
+	sf::Text display;
+	int max_turns{ 6 };
+	int cur_turns{ 0 };
+	bool displayed{ false };
+};
 
 class game_ui {
 public:
@@ -22,18 +28,17 @@ public:
 	float origin_row{ 0.f };
 
 	sf::Text HUDline1;
-	sf::Text Announce1;
+	std::vector<ALERT> alerts;
+	int max_announce{ 12 };
+
 	void load_HUD(); //sf::Text and tile_maps must be loaded with new data before they are drawn
-	void load_announcements();
+	void load_announcement(int index);
 	void load_display();
 	void run();
 
 
 	int max_announcements{ 12 };
 
-	bool RUN_MODE{true};
-	bool INV_MODE{false};
-	bool LOOK_MODE{false};
 
 };
 

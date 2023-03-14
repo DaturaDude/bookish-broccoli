@@ -59,7 +59,7 @@ void engine::render() {
 engine_return engine::update(action players_action) {
 
 	info_to_return.announcements.clear();
-
+	//info_to_return.announcements.push_back("TESTING!.");
 	action_return player_go;
 	coords attackCoords = player_char->position;
 	if(player_char->energy>=5000)
@@ -164,6 +164,7 @@ engine_return engine::update(action players_action) {
 			player_char->energy -= player_char->melee_energy_cost;
 
 			info_to_return.player_hp = player_char->hp;
+			if(player_go.notify_player)
 			info_to_return.announcements.push_back(player_go.announcement);
 		}
 
@@ -192,8 +193,8 @@ engine_return engine::update(action players_action) {
 	render();
 	//null
 	info_to_return.player_hp = player_char->hp;
-	engine_return return_info = info_to_return;
-	return return_info;
+	//engine_return return_info = info_to_return;
+	return info_to_return;
 }
 
 actor* engine::getTarget(coords target_coords) {

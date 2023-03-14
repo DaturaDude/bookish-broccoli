@@ -1,7 +1,11 @@
 ﻿C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Microsoft\VC\v170\Microsoft.CppBuild.targets(517,5): warning MSB8028: The intermediate directory (Debug\) contains files shared from another project (SFMLx32-0.vcxproj).  This can lead to incorrect clean and rebuild behavior.
-  ui.cpp
+  engine.cpp
 C:\Users\Alex Johnson\Desktop\Projects\ASCIIgameRefactored\map_gen\sfml_testing-main\map_gen.h(187,10): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
 C:\Users\Alex Johnson\Desktop\Projects\ASCIIgameRefactored\map_gen\sfml_testing-main\map_gen.h(196,10): warning C4244: 'initializing': conversion from 'unsigned __int64' to 'int', possible loss of data
-C:\Users\Alex Johnson\Desktop\Projects\ASCIIgameRefactored\map_gen\sfml_testing-main\ui.cpp(67,31): warning C4018: '<': signed/unsigned mismatch
-C:\Users\Alex Johnson\Desktop\Projects\ASCIIgameRefactored\map_gen\sfml_testing-main\ui.cpp(73,51): warning C4018: '>': signed/unsigned mismatch
+C:\Users\Alex Johnson\Desktop\Projects\ASCIIgameRefactored\map_gen\sfml_testing-main\engine.h(15,21): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Alex Johnson\Desktop\Projects\ASCIIgameRefactored\map_gen\sfml_testing-main\engine.cpp(39,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Alex Johnson\Desktop\Projects\ASCIIgameRefactored\map_gen\sfml_testing-main\engine.cpp(44,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Alex Johnson\Desktop\Projects\ASCIIgameRefactored\map_gen\sfml_testing-main\engine.cpp(179,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Alex Johnson\Desktop\Projects\ASCIIgameRefactored\map_gen\sfml_testing-main\engine.cpp(202,20): warning C4018: '<': signed/unsigned mismatch
+C:\Users\Alex Johnson\Desktop\Projects\ASCIIgameRefactored\map_gen\sfml_testing-main\engine.cpp(234,20): warning C4018: '<': signed/unsigned mismatch
   SFMLx32-0.vcxproj -> C:\Users\Alex Johnson\Desktop\Projects\ASCIIgameRefactored\map_gen\sfml_testing-main\Debug\map_tiles.exe

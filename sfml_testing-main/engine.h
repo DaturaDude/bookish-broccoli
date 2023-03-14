@@ -6,8 +6,17 @@ constexpr int MAX_ANNOUNCEMENTS = 12;
 struct engine_return {
 	bool updated{ false };
 	std::vector<std::string> announcements;
-	int player_hp{ -1 };
+	int player_hp{ 50 };
 	//will probably later contain generalized end of turn information + extra announcements
+	engine_return& operator=(const engine_return& c) {
+		updated = c.updated;
+		player_hp = c.player_hp;
+
+		for (int i = 0; i < c.announcements.size(); i++) {
+			announcements.push_back(c.announcements[i]);
+		}
+		return *this;
+	}
 };
 
 class engine {
