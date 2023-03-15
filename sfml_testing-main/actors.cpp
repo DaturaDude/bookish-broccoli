@@ -22,7 +22,7 @@ action_return actor::meleeAttack(actor* target) {
 	}
 
 	if (Hit == false) {
-		std::string AnnouncementMiss = name + " Misses " + target->name + ".";
+		std::string AnnouncementMiss = name + " misses " + target->name + ".";
 		return_info.announcement = AnnouncementMiss;
 		//std::cout << AnnouncementMiss << std::endl;
 		return_info.success = false;
