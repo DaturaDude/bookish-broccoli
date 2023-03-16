@@ -4,7 +4,7 @@ action_return actor::meleeAttack(actor* target) {
 	action_return return_info;
 	return_info.notify_player = true;
 	int baseDmg = meleeDmg;
-
+	baseDmg += worn_items.get_m_dmg_bonus();
 	//first roll 3d6 for hit/miss
 
 	int d1 = generateRandomInt(1, 6);
@@ -13,6 +13,7 @@ action_return actor::meleeAttack(actor* target) {
 	int accRoll = d1 + d2 + d3;
 	//add acc bonus to acc roll, if roll is greater than or equal to nine(<-prob too high) hit else miss
 	accRoll += meleeAcc;
+	accRoll += worn_items.get_m_acc_bonus();
 	bool Hit;
 	if (accRoll > 6) {
 		Hit = true;
@@ -36,7 +37,12 @@ action_return actor::meleeAttack(actor* target) {
 
 	}
 
-	damageRoll += baseDmg - 1;
+	damageRoll += baseDmg - 1 - worn_items.get_defense_bonus();
+
+	if (damageRoll < 1) {
+		damageRoll = 0;
+	}
+
 	target->hp -= damageRoll;
 
 
@@ -470,17 +476,17 @@ bool zombie::checkAdjacent(coords PlayerLoc) {
 
 }
 
-zombie::zombie(coords initPos, world_plane* spawn_map) {
+zombie::zombie(coords initPos, std::shared_ptr<world_plane> spawn_map) {
 	symbol = 'Z';
 	position = initPos;
 	name = "Zombie";
 	description = "It wants to eat your brains.";
 	speed = 80;
-	hp = 20;
+	hp = 10;
 	active_map = spawn_map;
 }
 
-player::player(coords initPos, world_plane* spawn_map) {
+player::player(coords initPos, std::shared_ptr<world_plane> spawn_map) {
 	symbol = '@';
 	position = initPos;
 	name = "player_name";
@@ -561,3 +567,4 @@ action_return zombie::update(actor* player_target) {
 	return return_info;
 
 }
+
