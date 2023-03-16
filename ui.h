@@ -51,6 +51,7 @@ public:
 
 	void load_HUD(); //sf::Text and tile_maps must be loaded with new data before they are drawn
 	void load_announcement(int index);
+	void load_announcement(std::string a_string);
 	void run();
 	int max_announce{ 12 };
 

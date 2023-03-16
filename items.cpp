@@ -23,7 +23,7 @@ item::item(items_list new_item_type) {
 		name = "Kevlar vest";
 		description = "A piece of modern body armor made of woven aramid fibers. Designed to protect against relatively low-velocity projectiles.";
 		equip_slot = torso;
-		defense_bonus = 3;
+		defense_bonus = 2;
 	break;
 
 

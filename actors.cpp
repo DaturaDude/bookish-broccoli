@@ -4,7 +4,8 @@ action_return actor::meleeAttack(actor* target) {
 	action_return return_info;
 	return_info.notify_player = true;
 	int baseDmg = meleeDmg;
-	baseDmg += worn_items.get_m_dmg_bonus();
+	int dmg_bonus = worn_items.get_m_dmg_bonus();
+	baseDmg += dmg_bonus;
 	//first roll 3d6 for hit/miss
 
 	int d1 = generateRandomInt(1, 6);
@@ -13,7 +14,8 @@ action_return actor::meleeAttack(actor* target) {
 	int accRoll = d1 + d2 + d3;
 	//add acc bonus to acc roll, if roll is greater than or equal to nine(<-prob too high) hit else miss
 	accRoll += meleeAcc;
-	accRoll += worn_items.get_m_acc_bonus();
+	int acc_bonus = worn_items.get_m_acc_bonus();
+	accRoll += acc_bonus;
 	bool Hit;
 	if (accRoll > 6) {
 		Hit = true;
@@ -37,8 +39,9 @@ action_return actor::meleeAttack(actor* target) {
 
 	}
 
-	damageRoll += baseDmg - 1 - worn_items.get_defense_bonus();
-
+	int def_bonus =  target->worn_items.get_defense_bonus();
+	damageRoll += baseDmg;
+	damageRoll -= def_bonus;
 	if (damageRoll < 1) {
 		damageRoll = 0;
 	}
@@ -568,3 +571,53 @@ action_return zombie::update(actor* player_target) {
 
 }
 
+action_return actor::equipItem(int index) { //I'll need to update this for other item slots as I add items for them
+	action_return return_info;
+	return_info.notify_player = true;
+	if (backpack.items[index]->equip_slot == wield && worn_items.wielded == nullptr) {
+		return_info.success = true;
+		return_info.announcement = "You tightly grip your " + backpack.items[index]->name;
+		worn_items.wielded = move(backpack.items[index]);
+		backpack.items.erase(backpack.items.begin() + index);
+		return return_info;
+	}
+	else if (backpack.items[index]->equip_slot == torso && worn_items.worn_torso == nullptr) {
+		return_info.success = true;
+		return_info.announcement = "You put on your " + backpack.items[index]->name;
+		worn_items.worn_torso = move(backpack.items[index]);
+		backpack.items.erase(backpack.items.begin() + index);
+		return return_info;
+	}
+	else {
+		return_info.success = false;
+		return_info.announcement = "You can't do that right now.";
+		return return_info;
+	}
+
+
+}
+
+action_return actor::chugItem(int index) {
+	action_return return_info;
+	if (backpack.items[index]->can_chug && backpack.items[index]->on_chug == healing) {
+		return_info.success = true;
+		return_info.announcement = "You feel an intense burning sensation as your wounds begin to close.";
+		hp += backpack.items[index]->chug_effect_magnitude;
+		if (hp >= max_hp) {
+			hp = max_hp;
+		}
+		backpack.items[index]->chug_charges--;
+		if (backpack.items[index]->chug_charges <= 0) {
+			backpack.items.erase(backpack.items.begin() + index);
+		}
+
+	
+	}
+	else {
+		return_info.success = false;
+		return_info.announcement = "You don't think that's a good idea.";
+	}
+
+
+	return return_info;
+}

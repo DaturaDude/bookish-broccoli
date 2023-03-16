@@ -20,6 +20,7 @@ public:
 	bool can_chug{ false };
 	chug_effect on_chug{ nothing };
 	int chug_effect_magnitude{ 0 };
+	int chug_charges{ 1 };
 	item(items_list new_item_type);
 };
 

@@ -67,6 +67,19 @@ void game_ui::load_announcement(int index) {
     return;
 }
 
+void game_ui::load_announcement(std::string a_string) {
+
+    ALERT alert_to_add;
+    alert_to_add.display.setFont(font);
+    alert_to_add.display.setString(a_string);
+    alert_to_add.display.setCharacterSize(16);
+    alert_to_add.display.setFillColor(sf::Color::White);
+
+    alerts.push_back(alert_to_add);
+
+    return;
+}
+
 /*
 bool announcement::load_font() {
 
@@ -175,6 +188,40 @@ void game_ui::run_inventory_menu(sf::Event event) {
 
     if (event.key.code == sf::Keyboard::Escape) {
         STATE = RUN;
+    }
+
+    if (event.key.code == sf::Keyboard::A) {
+        action_return info = game_engine.player_char->equipItem(0);
+        if (info.success == false) {
+            info = game_engine.player_char->chugItem(0);
+            load_announcement(info.announcement);
+        }
+        else {
+            load_announcement(info.announcement);
+        }
+
+    }
+
+    if (event.key.code == sf::Keyboard::B) {
+        action_return info = game_engine.player_char->equipItem(1);
+        if (info.success == false) {
+            info = game_engine.player_char->chugItem(1);
+            load_announcement(info.announcement);
+        }
+        else {
+            load_announcement(info.announcement);
+        }
+    }
+
+    if (event.key.code == sf::Keyboard::C) {
+        action_return info = game_engine.player_char->equipItem(2);
+        if (info.success == false) {
+            info = game_engine.player_char->chugItem(2);
+            load_announcement(info.announcement);
+        }
+        else {
+            load_announcement(info.announcement);
+        }
     }
 
 
